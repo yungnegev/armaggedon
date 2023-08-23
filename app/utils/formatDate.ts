@@ -5,3 +5,16 @@ export const formatDate = (date: Date) => {
     let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
     return currentDate
 }
+
+export const getTomorrow = (today: Date) => {
+    const tomorrow = new Date(today)
+    tomorrow.setDate(today.getDate() + 1) 
+    return tomorrow
+}
+
+export const getTomorrowString = (today: string) => {
+    const todayDate = new Date(today)
+    const tomorrow = new Date(todayDate)
+    tomorrow.setDate(todayDate.getDate() + 1) 
+    return tomorrow
+}
