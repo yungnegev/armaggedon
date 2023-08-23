@@ -1,11 +1,12 @@
 'use client'
 
-import { use, useEffect, useState } from 'react'
+import styles from './LoadAsteroids.module.css'
+import { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import Spinner from '../spinner/Spinner'
 import Asteroids from '../asteroids/Asteroids'
 import { formatDate, getTomorrowString } from '@/app/utils/formatDate'
 import { fetchAsteroids } from '@/app/actions/fetchAsteroids'
+import { RotatingLines } from 'react-loader-spinner'
 
 interface Props {
     currentDate: string
@@ -19,17 +20,14 @@ const LoadAsteroids = ({ currentDate, API_KEY, initialData }: Props) => {
   const [date, setDate] = useState<string>(currentDate)
   const [ref, inView] = useInView()
   
-
-
-
   const loadMore = async () => {
     setDate((prev) => {
         const newDate = formatDate(getTomorrowString(prev))
         return newDate
     })
-    console.log(date)
     const newAsteroidData = (await fetchAsteroids(date, API_KEY)) ?? []
     const newAsteroids = newAsteroidData.near_earth_objects[date]
+    newAsteroids.date = date
     setAsteroids((prev) => [...prev, ...newAsteroids])
   }
 
@@ -40,12 +38,18 @@ const LoadAsteroids = ({ currentDate, API_KEY, initialData }: Props) => {
   }, [inView])
 
   return (
-    <>
-    <Asteroids asteroids={asteroids} />
-    <div ref={ref}>
-        <Spinner />
-    </div>
-    </>
+    <section>
+      <Asteroids asteroids={asteroids} />
+      <div ref={ref} className={styles.loader}>
+          <RotatingLines 
+              strokeColor="grey"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="22"
+              visible={true}
+            />
+      </div>
+    </section>
   )
 }
 
