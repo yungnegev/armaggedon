@@ -1,0 +1,11 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+  
+.asteroid {
+    border: 1px solid black;
+    height: 160px;
+}

@@ -1,36 +1,20 @@
 import styles from './page.module.css'
+import { fetchAsteroids } from './actions/fetchAsteroids';
+import { formatDate } from './utils/formatDate'; 
+import Asteroids from './components/asteroids/Asteroids';
 
 export default async function Home() {
 
-  // Date object
-const date = new Date();
-
-  let currentDay= String(date.getDate()).padStart(2, '0');
-
-  let currentMonth = String(date.getMonth()+1).padStart(2,"0");
-
-  let currentYear = date.getFullYear();
-
-  // we will display the date as DD-MM-YYYY 
-
-  let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+  const date = new Date();
+  let currentDate = formatDate(date)
 
   const API_KEY = 'oW7k1DI2mReZhDSOjUS2McvJtx9Kbk9m30UDcyyI'
-  const response = await fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${currentDate}&end_date=${currentDate}&api_key=${API_KEY}`)
-  const data = await response.json()
-
-  console.log(data)
-  console.log(currentDate)
+  const data = await fetchAsteroids(currentDate, API_KEY)
+  const asteroids = data.near_earth_objects[currentDate]
 
   return (
-    <main>
-      {data.near_earth_objects[currentDate].map((asteroid: any, index: string) => {
-        return (
-          <div key={index}>
-            {asteroid.name}
-          </div>
-        )
-      })}
+    <main className={styles.main}>
+      <Asteroids asteroids={asteroids} />
     </main>
   )
 }
