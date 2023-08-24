@@ -1,0 +1,26 @@
+.approach {
+    display: flex;
+    flex-direction: column;
+    background-color: #121212;
+    border-radius: 0.6rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 1rem;
+    margin: 0;
+}
+
+.entry {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.orange {
+    color: #f76603;
+}
